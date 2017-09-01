@@ -21,7 +21,6 @@ namespace EZBlocker
         private int exitTolerance = 0;
         private ToolTip artistTooltip = new ToolTip();
 
-        private string nircmdPath = Application.StartupPath + @"\nircmd.exe";
         private string jsonPath = Application.StartupPath + @"\Newtonsoft.Json.dll";
         private string coreaudioPath = Application.StartupPath + @"\CoreAudio.dll";
         public static string logPath = Application.StartupPath + @"\EZBlocker-log.txt";
@@ -205,13 +204,6 @@ namespace EZBlocker
             }
             else // Mute all of Windows
             {
-                Process process = new Process();
-                ProcessStartInfo startInfo = new ProcessStartInfo();
-                startInfo.WindowStyle = ProcessWindowStyle.Hidden;
-                startInfo.FileName = "cmd.exe";
-                startInfo.Arguments = "/C nircmd mutesysvolume " + i.ToString();
-                process.StartInfo = startInfo;
-                process.Start();
             }
 
         }
@@ -290,7 +282,6 @@ namespace EZBlocker
             {
                 try
                 {
-                    if (File.Exists(nircmdPath)) File.Delete(nircmdPath);
                     if (File.Exists(jsonPath)) File.Delete(jsonPath);
                     if (File.Exists(coreaudioPath)) File.Delete(coreaudioPath);
                     Properties.Settings.Default.Upgrade();
@@ -581,10 +572,6 @@ namespace EZBlocker
 
             // Extract dependencies
             try {
-                if (!File.Exists(nircmdPath))
-                {
-                    File.WriteAllBytes(nircmdPath, Properties.Resources.nircmd32);
-                }
                 if (!File.Exists(jsonPath))
                 {
                     File.WriteAllBytes(jsonPath, Properties.Resources.Newtonsoft_Json);
